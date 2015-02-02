@@ -1,0 +1,8 @@
+cd G4HadStudies
+cd include 
+rootcint -f ../src/DictOutput.cc -c ProdTuple_t.hh TrackInfo_t.hh  Linkdef.h
+cd ../..
+mkdir G4HadStudies-build
+cd G4HadStudies-build
+cmake ../G4HadStudies/ -DCMAKE_INSTALL_PREFIX=../G4HadStudies-install
+make install
