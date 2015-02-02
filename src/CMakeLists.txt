@@ -39,7 +39,7 @@ ROOT_GENERATE_DICTIONARY( "${CMAKE_CURRENT_SOURCE_DIR}/src/ProdTuple_tDict"
                           "${CMAKE_CURRENT_SOURCE_DIR}/include/TrackInfo_t.hh"
                           LINKDEF  
                           "${CMAKE_CURRENT_SOURCE_DIR}/include/Linkdef.h")
-#                          OPTIONS -p)
+
 
 file(GLOB sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc )
 
@@ -61,10 +61,7 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 add_executable(${name} ${name}.cc)
 
 target_link_libraries(${name}  CrossSection   ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
-#target_link_libraries( ${name}     
-#                       ${Geant4_LIBRARIES}  
-#                       ${ROOT_LIBRARIES}
-#                     )
+
 
 install (TARGETS ${name} DESTINATION bin)
 install (TARGETS CrossSection DESTINATION lib)
