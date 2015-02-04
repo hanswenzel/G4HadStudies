@@ -12,6 +12,8 @@ HadPrimaryGeneratorAction::HadPrimaryGeneratorAction()
   particleGun  = new G4ParticleGun(1);
 
   particleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+  G4double zVertex = -5.*mm;
+  particleGun->SetParticlePosition(G4ThreeVector(0.,0.,zVertex));
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -25,8 +27,6 @@ HadPrimaryGeneratorAction::~HadPrimaryGeneratorAction()
 
 void HadPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  G4double zVertex = -5.*mm;
-  particleGun->SetParticlePosition(G4ThreeVector(0.,0.,zVertex));
   particleGun->GeneratePrimaryVertex(anEvent);
   HadAnalysis* analysis = HadAnalysis::getInstance();
   Double_t ener = particleGun->GetParticleEnergy();
