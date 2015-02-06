@@ -150,13 +150,13 @@ void HadAnalysis::WriteHeader(){
 
   //XS:
   G4HadronicProcessStore* store = G4HadronicProcessStore::Instance();
-  int pos = material.find("_");
-  G4cout << "Hello Material: "<< material << G4endl;
-  std::string elemName = material.substr(pos+1);
+  //int pos = material.find("_");
+  //G4cout << "Hello Material: "<< material << G4endl;
+  //std::string elemName = material.substr(pos+1);
+  std::string elemName = "Ar";
   const G4Element* elm  = G4NistManager::Instance()->FindOrBuildElement(elemName);
   inelasticXS = 1.e25*(store->GetInelasticCrossSectionPerAtom(particle,enerPrimGen,elm)); 
   elasticXS   = 1.e25*(store->GetElasticCrossSectionPerAtom(particle,enerPrimGen,elm));
-  
   HeaderTree->Fill();
   HeaderTree->Write();
     
