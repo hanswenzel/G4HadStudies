@@ -65,4 +65,4 @@ target_link_libraries(${name}  CrossSection   ${Geant4_LIBRARIES} ${ROOT_LIBRARI
 
 install (TARGETS ${name} DESTINATION bin)
 install (TARGETS CrossSection DESTINATION lib)
-install (FILES vis.mac DESTINATION bin)
+install (FILES vis.mac init_vis.mac DESTINATION bin)
