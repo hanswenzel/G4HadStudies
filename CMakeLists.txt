@@ -26,7 +26,7 @@ endif()
 
 message(STATUS "${ROOT_USE_FILE}=${${ROOT_USE_FILE}}")
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include
                     ${Geant4_INCLUDE_DIR}
                     ${ROOT_INCLUDE_DIR})
 
