@@ -1,8 +1,8 @@
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
-#include "G4UIterminal.hh"
-#include "G4UItcsh.hh"
+//#include "G4UIterminal.hh"
+//#include "G4UItcsh.hh"
 #include "Randomize.hh"
 #include "G4PhysListFactory.hh"
 #include "G4OpticalPhysics.hh"
@@ -14,18 +14,32 @@
 #include "HadRunAction.hh"
 #include "HadEventAction.hh"
 #include "HadStackingAction.hh"
-
+#include "G4UIExecutive.hh"
 #include "G4VisExecutive.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-int main(int argc,char** argv) {
+int main(int argc, char** argv) {
 
-  //choose the Random engine
-  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+    // Detect interactive mode (if no arguments) and define UI session
+    //
+    G4UIExecutive* ui = 0;
+    if (argc == 1) {
+        ui = new G4UIExecutive(argc, argv);
+    }
 
-  //Construct the default run manager
-  G4RunManager * runManager = new G4RunManager();
+
+    //choose the Random engine
+    G4Random::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+    // Construct the default run manager
+    //
+#ifdef G4MULTITHREADED
+    G4MTRunManager* runManager = new G4MTRunManager;
+#else
+    G4RunManager* runManager = new G4RunManager;
+#endif
+
+
     G4PhysListFactory factory;
     G4VModularPhysicsList* phys = NULL;
     G4String physName = "";
@@ -62,52 +76,50 @@ int main(int argc,char** argv) {
     if (factory.IsReferencePhysList(physName)) {
         phys = factory.GetReferencePhysList(physName);
     }
-  //set mandatory initialization classes
-  runManager->SetUserInitialization(new HadDetectorConstruction());
-
+    //set mandatory initialization classes
+    runManager->SetUserInitialization(new HadDetectorConstruction());
     runManager->SetUserInitialization(phys);
-  //runManager->SetUserInitialization(new QBBC(1,"QBEC_HP"));
-  //runManager->SetUserInitialization(new QGSP);
 
-  runManager->SetUserAction(new HadPrimaryGeneratorAction());
 
-  //set user action classes
-  runManager->SetUserAction(new HadRunAction());
-  runManager->SetUserAction(new HadEventAction());
-  runManager->SetUserAction(new HadStackingAction());
+    //set user action classes
+    runManager->SetUserAction(new HadPrimaryGeneratorAction());
+    runManager->SetUserAction(new HadRunAction());
+    runManager->SetUserAction(new HadEventAction());
+    runManager->SetUserAction(new HadStackingAction());
+    // Initialize visualization
+    //
+    G4VisManager* visManager = new G4VisExecutive;
+    // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
+    // G4VisManager* visManager = new G4VisExecutive("Quiet");
+    visManager->Initialize();
+    
+    
+    //get the pointer to the User Interface manager
+    G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
-  //get the pointer to the User Interface manager
-  G4UImanager* UI = G4UImanager::GetUIpointer();
-  G4VisManager* visManager = 0;
-
-  if (argc==1)   // Define UI terminal for interactive mode
-    {
-#ifdef G4VIS_USE
-      //visualization manager
-      visManager = new G4VisExecutive;
-      visManager->Initialize();
-#endif
-      G4UIsession* session = 0;
-#ifdef G4UI_USE_TCSH
-      session = new G4UIterminal(new G4UItcsh);
-#else
-      session = new G4UIterminal();
-#endif
-      session->SessionStart();
-      delete session;
-    }
-  else           // Batch mode
-    {
-     G4String command = "/control/execute ";
-     G4String fileName = argv[1];
-     UI->ApplyCommand(command+fileName);
+    // Process macro or start UI session
+    //
+    if (!ui) {
+        // batch mode
+        G4String command = "/control/execute ";
+        G4String fileName = argv[1];
+        UImanager->ApplyCommand(command + fileName);
+    } else {
+        // interactive mode
+        UImanager->ApplyCommand("/control/execute init_vis.mac");
+        ui->SessionStart();
+        delete ui;
     }
 
-  //job termination
-  if(visManager) delete visManager;
-  delete runManager;
+    // Job termination
+    // Free the store: user actions, physics_list and detector_description are
+    // owned and deleted by the run manager, so they should not be deleted 
+    // in the main() program !
 
-  return 0;
+    delete visManager;
+    delete runManager;
+
+    return 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
