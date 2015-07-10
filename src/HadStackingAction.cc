@@ -43,7 +43,11 @@ HadStackingAction::ClassifyNewTrack(const G4Track* aTrack)
 
    procNP = (aTrack->GetCreatorProcess()->GetProcessName()=="protonInelastic") || (aTrack->GetCreatorProcess()->GetProcessName()=="neutronInelastic");
 
-   procPi = (aTrack->GetCreatorProcess()->GetProcessName()=="pi+Inelastic") || (aTrack->GetCreatorProcess()->GetProcessName()=="pi-Inelastic");
+   // make sure that it works with older versions of Geant4
+   procPi = (aTrack->GetCreatorProcess()->GetProcessName()=="pi+Inelastic") || 
+     (aTrack->GetCreatorProcess()->GetProcessName()=="PionPlusInelastic") ||
+     (aTrack->GetCreatorProcess()->GetProcessName()=="pi-Inelastic") ||
+     (aTrack->GetCreatorProcess()->GetProcessName()=="PionMinusInelastic");
 
    procK = (aTrack->GetCreatorProcess()->GetProcessName()=="kaon+Inelastic") || (aTrack->GetCreatorProcess()->GetProcessName()=="kaon-Inelastic");
 
