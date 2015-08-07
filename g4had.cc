@@ -12,7 +12,6 @@
 
 #include "HadRunAction.hh"
 #include "HadEventAction.hh"
-#include "HadStackingAction.hh"
 #include "G4UIExecutive.hh"
 #include "G4VisExecutive.hh"
 
