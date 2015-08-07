@@ -55,7 +55,8 @@ void HadRunAction::BeginOfRunAction(const G4Run* aRun) {
     HadAnalysis* analysis = HadAnalysis::getInstance();
 
     analysis->book(id0, id1);
-
+    analysis->SetnumberElastic(0);
+    analysis->SetnumberinElastic(0);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
@@ -69,8 +70,7 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
 #endif
 
     HadAnalysis* analysis = HadAnalysis::getInstance();
-    analysis->GetRunActInfo(nEvts);
-
+    analysis->SetRunActInfo(nEvts);
     analysis->finish();
 
 }

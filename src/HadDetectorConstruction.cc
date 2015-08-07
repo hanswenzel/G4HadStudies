@@ -1,7 +1,7 @@
 
 #include "HadDetectorConstruction.hh"
 #include "HadDetectorMessenger.hh"
-
+#include "HadSD.hh"
 #include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
@@ -76,8 +76,12 @@ G4VPhysicalVolume* HadDetectorConstruction::Construct()
   G4Tubs* solidT = new G4Tubs("Target",0.,radius,targetZ,0.,twopi);
   logicTarget = new G4LogicalVolume(solidT,targetMaterial,"Target");
   new G4PVPlacement(0,G4ThreeVector(),logicTarget,"Target",logicWorld,false,0);
-
- 
+  G4String SDname = "TargetSD";
+  B2TrackerSD* aTrackerSD = new B2TrackerSD(SDname,
+                                             "HitsCollection");
+   // Setting aTrackerSD to all logical volumes with the same name 
+   // of "Target".
+   SetSensitiveDetector("Target", aTrackerSD, true);
   // colors
   G4VisAttributes zero = G4VisAttributes::Invisible;
   logicWorld->SetVisAttributes(&zero);
@@ -95,9 +99,9 @@ G4VPhysicalVolume* HadDetectorConstruction::Construct()
   G4double dens  =  targetMaterial->GetDensity()/(g/cm3);
   G4String nameM =  targetMaterial->GetName();
  
- 
   vDCinfo.push_back(dens);
-  analysis->GetDetConstInfo(vDCinfo,targetMaterial);
+  
+  analysis->SetDetConstInfo(vDCinfo,targetMaterial);
   return world;
 }
 

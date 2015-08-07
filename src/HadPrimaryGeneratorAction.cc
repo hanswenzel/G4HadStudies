@@ -32,7 +32,7 @@ void HadPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   Double_t ener = particleGun->GetParticleEnergy();
   G4ParticleDefinition* part  = particleGun->GetParticleDefinition();
 
-  analysis->GetPrimGenInfo(ener,part);
+  analysis->SetPrimGenInfo(ener,part);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
