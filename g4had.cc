@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
     runManager->SetUserAction(new HadPrimaryGeneratorAction());
     runManager->SetUserAction(new HadRunAction());
     runManager->SetUserAction(new HadEventAction());
-    runManager->SetUserAction(new HadStackingAction());
+//    runManager->SetUserAction(new HadStackingAction());
     // Initialize visualization
     //
     G4VisManager* visManager = new G4VisExecutive;
