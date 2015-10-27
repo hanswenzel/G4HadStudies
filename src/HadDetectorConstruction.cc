@@ -77,8 +77,7 @@ G4VPhysicalVolume* HadDetectorConstruction::Construct()
   logicTarget = new G4LogicalVolume(solidT,targetMaterial,"Target");
   new G4PVPlacement(0,G4ThreeVector(),logicTarget,"Target",logicWorld,false,0);
   G4String SDname = "TargetSD";
-  B2TrackerSD* aTrackerSD = new B2TrackerSD(SDname,
-                                             "HitsCollection");
+  HadSD* aTrackerSD = new HadSD(SDname, "HitsCollection");
    // Setting aTrackerSD to all logical volumes with the same name 
    // of "Target".
    SetSensitiveDetector("Target", aTrackerSD, true);
