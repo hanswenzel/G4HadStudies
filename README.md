@@ -1,7 +1,7 @@
 # G4HadStudies
-Is a stand alone geant 4 application to calculate hadronic cross sections. 
+Is a stand alone geant4 application to calculate hadronic cross sections. 
 
-Prerequisites: Geant 4 and ROOT installed and the runtime properly initialized.  
+Prerequisites: Geant4 and ROOT installed and the runtime properly initialized.  
 cmake 
 
 
