@@ -31,6 +31,7 @@ G4bool HadSD::ProcessHits(G4Step* aStep,
     //
     // we only care about the first elastic or inelastic interaction of the primary particle
     // (geant4 version 4.10 and up) )
+    //  
     if (aStep->GetTrack()->GetParentID() == 0) {
         if (aStep->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "hadElastic") {
             HadAnalysis* analysis = HadAnalysis::getInstance();
