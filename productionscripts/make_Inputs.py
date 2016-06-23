@@ -41,6 +41,9 @@ for run in energies:
   print >> out, "/gun/energy %2.1f MeV " % run
   print >> out, "/run/beamOn %s" % str(NParticles)
 
+#You may need to make some changes if you are running on a different computer:
+#in the following line, replace /home/isaac13/ ... with the path to g4had
+#on your own computer.
   print >> master, "/home/isaac13/G4HadStudies-install/bin/g4had %s_%s_%03d.in >& %s_%s_%03d.log" % (g4particle,plist,n,g4particle,plist,n)
   print >> tuples, "ntuple_%04d.root" % n
 
