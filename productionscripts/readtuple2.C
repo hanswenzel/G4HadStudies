@@ -14,6 +14,7 @@
 #include "TTree.h"
 #include "TGraphErrors.h"
 #include "TROOT.h"
+#include "TAxis.h"
 #include <vector>
 
 //get location of .root files
@@ -111,14 +112,15 @@ void readtuple2()
     
   // Put all the graphs on top of each other
   gr_totXs = new TGraphErrors(n_points,list_enerPrimGen,list_totXs,zeros,list_errtotXs);
-  gr_totXs -> SetTitle("XS vs. Energy");
+  gr_totXs -> SetTitle("XS vs Energy");
   gr_totXs -> SetMarkerColor(4);
   gr_totXs -> SetMarkerStyle(7);
   gr_totXs -> SetMinimum(0.0);
   
   //Unforunately the axis Labels keep on giving me errors
-  //gr_totXs -> GetXaxis() -> SetTitle("Energy (Mev)");
-  // gr_totXs -> GetYaxis() -> SetTitle("XS (mb)");
+  //if you want them, I think you just have to #include "TAxis.h"
+  gr_totXs -> GetXaxis() -> SetTitle("Energy [Mev]");
+  gr_totXs -> GetYaxis() -> SetTitle("XS [mb]");
   gr_totXs -> Draw("ALP");
   
   gr_elXs = new TGraphErrors(n_points,list_enerPrimGen,list_elXs,zeros,list_errelXs);
