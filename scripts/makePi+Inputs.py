@@ -26,7 +26,7 @@ for run in energies:
   print >> out, "/gun/energy %2.1f MeV " % run
   print >> out, "/run/beamOn 1000000"
 
-  print >> master, "g4had.exe %ss_%s_%03d.in" % (particle,plist,n)
+  print >> master, " ../../G4HadStudies-install/bin/g4had %ss_%s_%03d.in" % (particle,plist,n)
   print >> tuples, "ntuple_%04d.root" % n
 
   n += 1
