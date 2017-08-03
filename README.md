@@ -22,9 +22,12 @@ make install
 
 To run it :
 
-First use the provided python script to generate the geant4 input: 
+First use the provided python script to generate the geant4 input:
+
 cd ../G4HadStudies-install/bin
+
 python ../../G4HadStudies/scripts/makePi+Inputs.py
+
 chmod +x run.sh
 
 ./run.sh
