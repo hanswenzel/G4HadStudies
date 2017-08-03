@@ -1,5 +1,5 @@
 #include "G4RunManager.hh"
-#include "G4MTRunManager.hh"
+//#include "G4MTRunManager.hh"
 #include "G4UImanager.hh"
 //#include "G4UIterminal.hh"
 //#include "G4UItcsh.hh"
@@ -32,11 +32,11 @@ int main(int argc, char** argv) {
     G4Random::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
     // Construct the default run manager
     //
-#ifdef G4MULTITHREADED
-    G4MTRunManager* runManager = new G4MTRunManager;
-#else
+    //#ifdef G4MULTITHREADED
+    //G4MTRunManager* runManager = new G4MTRunManager;
+    //#else
     G4RunManager* runManager = new G4RunManager;
-#endif
+    //#endif
 
 
     G4PhysListFactory factory;
