@@ -26,7 +26,7 @@ class TFile;
 class TTree;
 class G4Track;
 class G4VTrajectory;
-
+class HadAnalysisMessenger;
 //class ProdTuple_t;
 
 class HadAnalysis {
@@ -45,6 +45,7 @@ public:
     void SetRunActInfo(Int_t nevt);
     void SetnumberElastic(Int_t nel);
     void SetnumberinElastic(Int_t ninel);
+    void SetNtupleFilename(const G4String&);
     Int_t GetnumberElastic();
     Int_t GetnumberinElastic();
     static HadAnalysis* getInstance();
@@ -54,7 +55,7 @@ public:
 private:
     static HadAnalysis* instance;
 
-    char NtupleFileName[50];
+    G4String NtupleFileName = "junk.root";
     TFile* FileNtuple;
     //   TTree* ProdTree;
     TTree* HeaderTree;
@@ -67,11 +68,11 @@ private:
     Double_t rho;
     Double_t aweight;
     G4Material* mate;
-    std::string material;
+    G4String material;
     Double_t enerPrimGen;
-    std::string namePrim;
+    G4String namePrim;
     G4ParticleDefinition* particle;
-    std::string PartName;
+    G4String PartName;
     Int_t numberEvts;
     Int_t numberElastic;
     Int_t numberinElastic;
@@ -81,6 +82,7 @@ private:
     Double_t errtotXs;
     Double_t errelXs;
     Double_t errinelXs;
+    HadAnalysisMessenger* anaMessenger;
 };
 
 #endif 
