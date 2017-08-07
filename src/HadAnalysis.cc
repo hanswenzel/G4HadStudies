@@ -1,10 +1,12 @@
 
 #include <vector>
+#include <string>
 #include <fstream>
 #include <iomanip>
 #include <algorithm>
 #include <stdlib.h>
 #include <math.h>
+
 //Root 
 #include <TFile.h>          
 #include <TTree.h>
@@ -27,6 +29,7 @@
 #include "G4NistManager.hh"
 
 #include "HadAnalysis.hh"
+#include "HadAnalysisMessenger.hh"
 
 using namespace std;
 
@@ -36,6 +39,7 @@ HadAnalysis* HadAnalysis::instance = 0;
 
 HadAnalysis::HadAnalysis() {
 #ifdef G4ANALYSIS_USE
+      anaMessenger = new HadAnalysisMessenger(this);
 #endif
 }
 //------------------------------------------------------------------------------------
@@ -55,11 +59,11 @@ HadAnalysis* HadAnalysis::getInstance() {
 //------------------------------------------------------------------------------------
 
 void HadAnalysis::book(G4long id0, G4long id1) {
-    sprintf(NtupleFileName, "ntuple_%04d.root", int(id0));
+//    sprintf(NtupleFileName, "ntuple_%04d.root", int(id0));
 
     G4cout << "Random Seeds: " << id0 << " " << id1 << G4endl;
 
-    FileNtuple = new TFile(NtupleFileName, "RECREATE", "hadronic interactions hadron-Target");
+    FileNtuple = new TFile(NtupleFileName.c_str(), "RECREATE", "hadronic interactions hadron-Target");
 
     //Get and store general information about this run: 
     HeaderTree = new TTree("RunInfo", "Run Info");
@@ -170,8 +174,8 @@ void HadAnalysis::WriteHeader() {
     G4HadronicProcessStore* store = G4HadronicProcessStore::Instance();
     int pos = material.find("_");
     //G4cout << "Hello Material: "<< material << G4endl;
-    std::string elemName = material.substr(pos + 1);
-    // std::string elemName = "Ar";
+    G4String elemName = material.substr(pos + 1);
+    // G4String elemName = "Ar";
     const G4Element* elm = G4NistManager::Instance()->FindOrBuildElement(elemName);
     aweight = elm->GetAtomicMassAmu();
     const double Na = 6.022140857e23;
@@ -188,3 +192,7 @@ void HadAnalysis::WriteHeader() {
     HeaderTree->Write();
 
 }
+  void HadAnalysis::SetNtupleFilename(const G4String& fname)
+{
+      NtupleFileName=fname;
+  }
