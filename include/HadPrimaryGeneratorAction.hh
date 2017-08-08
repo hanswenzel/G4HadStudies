@@ -9,21 +9,21 @@ class G4ParticleGun;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class HadPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
-{
+class HadPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
 public:
-  HadPrimaryGeneratorAction();
-  virtual ~HadPrimaryGeneratorAction();
+    HadPrimaryGeneratorAction();
+    virtual ~HadPrimaryGeneratorAction();
 
-  void GeneratePrimaries(G4Event*);
-  G4ParticleGun* GetParticleGun() {return particleGun;};
+    void GeneratePrimaries(G4Event*);
 
+    G4ParticleGun* GetParticleGun() {
+        return particleGun;
+    };
 private:
 
-  HadPrimaryGeneratorAction & operator=(const HadPrimaryGeneratorAction &right);
-  HadPrimaryGeneratorAction(const HadPrimaryGeneratorAction&);
-
-  G4ParticleGun*   particleGun;
+    HadPrimaryGeneratorAction & operator=(const HadPrimaryGeneratorAction &right);
+    HadPrimaryGeneratorAction(const HadPrimaryGeneratorAction&);
+    G4ParticleGun* particleGun;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
