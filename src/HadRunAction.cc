@@ -4,6 +4,7 @@
 #include "G4VVisManager.hh"
 #include "G4Element.hh"
 #include "HadAnalysis.hh"
+#include "HadPrimaryGeneratorAction.hh"
 #include "Randomize.hh"
 //
 #include "G4UnitsTable.hh"
@@ -12,6 +13,7 @@
 #include "G4ios.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4ParticleTable.hh"
+#include "G4ParticleGun.hh"
 #include "G4NistManager.hh"
 #include "G4HadronicProcessStore.hh"
 
@@ -72,8 +74,14 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
     HadAnalysis* analysis = HadAnalysis::getInstance();
     analysis->SetRunActInfo(nEvts);
     analysis->finish();
-    G4String fElementName = "H";
-    G4String fParticleName = "pi-";
+
+//    G4String fElementName = "H";
+//    G4String fParticleName = "pi-";
+
+    G4cout << "-------------------------------" << analysis->Getmaterial() << G4endl;
+    G4cout << "-------------------------------" << analysis->GetPartName() << G4endl;
+    G4String fElementName  = analysis->Getmaterial().substr(3);
+    G4String fParticleName = analysis->GetPartName() ;
     G4double fMinKinEnergy;
     G4double fMaxKinEnergy;
     G4double fMinMomentum;
@@ -92,9 +100,9 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
     const G4Element* elm =
             G4NistManager::Instance()->FindOrBuildElement(fElementName);
     const G4Material* mat =
-            G4NistManager::Instance()->FindOrBuildMaterial("G4_" + fElementName);
+            G4NistManager::Instance()->FindOrBuildMaterial(analysis->Getmaterial());
     const G4ParticleDefinition* particle =
-            G4ParticleTable::GetParticleTable()->FindParticle(fParticleName);
+            G4ParticleTable::GetParticleTable()->FindParticle(analysis->GetPartName());
 
     G4cout << "### Fill Cross Sections for " << fParticleName
             << " off " << fElementName
@@ -143,9 +151,9 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
         xtot = xs;
         G4cout << std::setw(12) << xs / barn;
         xs = store->GetInelasticCrossSectionPerAtom(particle, e, elm, mat);
-         G4cout << std::setw(12) << xs / barn;
+        G4cout << std::setw(12) << xs / barn;
         xtot += xs;
-        G4cout << " " << std::setw(12) << xtot/barn << G4endl;  
+        G4cout << " " << std::setw(12) << xtot / barn << G4endl;
         if (fTargetMaterial) {
             xs =
                     store->GetInelasticCrossSectionPerVolume(particle, e, fTargetMaterial);
@@ -154,8 +162,8 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
         }
 
     }
-  G4cout << "-------------------------------------------------------------" 
-           << G4endl;
+    G4cout << "-------------------------------------------------------------"
+            << G4endl;
 
 }
 

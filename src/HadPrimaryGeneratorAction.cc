@@ -1,8 +1,7 @@
-
 #include "HadPrimaryGeneratorAction.hh"
+#include "HadAnalysis.hh"
 #include "G4ParticleGun.hh"
 #include "Randomize.hh"
-#include "HadAnalysis.hh"
 #include <time.h>
 #include "G4SystemOfUnits.hh"
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -29,7 +28,7 @@ void HadPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   particleGun->GeneratePrimaryVertex(anEvent);
   HadAnalysis* analysis = HadAnalysis::getInstance();
-  Double_t ener = particleGun->GetParticleEnergy();
+  G4double ener = particleGun->GetParticleEnergy();
   G4ParticleDefinition* part  = particleGun->GetParticleDefinition();
 
   analysis->SetPrimGenInfo(ener,part);
