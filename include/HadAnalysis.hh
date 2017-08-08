@@ -30,28 +30,6 @@ class HadAnalysisMessenger;
 //class ProdTuple_t;
 
 class HadAnalysis {
-public:
-
-    HadAnalysis();
-    ~HadAnalysis();
-
-    void book(G4long, G4long);
-    void FillNtuple(std::vector<TrackInfo_t>);
-
-    void WriteNtuple();
-    void WriteHeader();
-    void SetDetConstInfo(std::vector<Double_t> DCinfo, G4Material* mat);
-    void SetPrimGenInfo(Double_t enerPrim, G4ParticleDefinition* Part);
-    void SetRunActInfo(Int_t nevt);
-    void SetnumberElastic(Int_t nel);
-    void SetnumberinElastic(Int_t ninel);
-    void SetNtupleFilename(const G4String&);
-    Int_t GetnumberElastic();
-    Int_t GetnumberinElastic();
-    static HadAnalysis* getInstance();
-    void finish();
-
-
 private:
     static HadAnalysis* instance;
 
@@ -83,6 +61,41 @@ private:
     Double_t errelXs;
     Double_t errinelXs;
     HadAnalysisMessenger* anaMessenger;
+public:
+
+    HadAnalysis();
+    ~HadAnalysis();
+
+    void book(G4long, G4long);
+    void FillNtuple(std::vector<TrackInfo_t>);
+
+    void WriteNtuple();
+    void WriteHeader();
+    void SetDetConstInfo(std::vector<Double_t> DCinfo, G4Material* mat);
+    void SetPrimGenInfo(Double_t enerPrim, G4ParticleDefinition* Part);
+    void SetRunActInfo(Int_t nevt);
+    void SetnumberElastic(Int_t nel);
+    void SetnumberinElastic(Int_t ninel);
+    void SetNtupleFilename(const G4String&);
+    Int_t GetnumberElastic();
+    Int_t GetnumberinElastic();
+
+    G4String GetPartName() {
+        return PartName;
+    };
+
+    G4String GetenerPrimGen() {
+        return enerPrimGen;
+    };
+
+    G4String Getmaterial() {
+        return material;
+    };
+    static HadAnalysis* getInstance();
+    void finish();
+
+
+
 };
 
 #endif 
