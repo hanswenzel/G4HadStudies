@@ -21,6 +21,12 @@
 #include "G4NistManager.hh"
 #include "G4StableIsotopes.hh"
 #include "G4SystemOfUnits.hh"
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 HadRunAction::HadRunAction() {
@@ -35,7 +41,7 @@ HadRunAction::~HadRunAction() {
 
 void HadRunAction::BeginOfRunAction(const G4Run* aRun) {
     G4int id = aRun->GetRunID();
-    G4cout << "### Run " << id << " start" << G4endl;
+    G4cout << "### Run " << id << " start" << endl;
     nEvts = aRun->GetNumberOfEventToBeProcessed();
 
     const G4long* table_entry;
@@ -64,7 +70,7 @@ void HadRunAction::BeginOfRunAction(const G4Run* aRun) {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void HadRunAction::EndOfRunAction(const G4Run*) {
-    G4cout << "RunAction: End of run actions are started" << G4endl;
+    G4cout << "RunAction: End of run actions are started" << endl;
 
 #ifdef G4VIS_USE
     if (G4VVisManager::GetConcreteInstance())
@@ -77,9 +83,13 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
 
 //    G4String fElementName = "H";
 //    G4String fParticleName = "pi-";
+    string filename = "XS_"+analysis->GetPartName()+"_"+analysis->Getmaterial()+".out";
 
-    G4cout << "-------------------------------" << analysis->Getmaterial() << G4endl;
-    G4cout << "-------------------------------" << analysis->GetPartName() << G4endl;
+    ofstream myfile;
+    
+    myfile.open (filename);
+    myfile << "-------------------------------" << analysis->Getmaterial() << endl;
+    myfile << "-------------------------------" << analysis->GetPartName() << endl;
     G4String fElementName  = analysis->Getmaterial().substr(3);
     G4String fParticleName = analysis->GetPartName() ;
     G4double fMinKinEnergy;
@@ -104,23 +114,22 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
     const G4ParticleDefinition* particle =
             G4ParticleTable::GetParticleTable()->FindParticle(analysis->GetPartName());
 
-    G4cout << "### Fill Cross Sections for " << fParticleName
+    myfile << "### Fill Cross Sections for " << fParticleName
             << " off " << fElementName
-            << G4endl;
-    G4cout << "-------------------------------------------------------------"
-            << G4endl;
-    G4cout << "    N     E(MeV)   Elastic(b)   Inelastic(b)";
-    G4cout << "   Total(b)" << G4endl;
-    G4cout << "-------------------------------------------------------------"
-            << G4endl;
+            << endl;
+    myfile << "-------------------------------------------------------------"
+            << endl;
+    myfile << "    N     E(MeV)   Elastic(b)   Inelastic(b)";
+    myfile << "   Total(b)" << endl;
+    myfile << "-------------------------------------------------------------"
+            << endl;
     if (!particle || !elm) {
-        G4cout << "HistoManager WARNING Particle or element undefined" << G4endl;
+        G4cout << "HistoManager WARNING Particle or element undefined" << endl;
         return;
     }
 
     G4int prec = G4cout.precision();
     G4cout.precision(4);
-
     G4HadronicProcessStore* store = G4HadronicProcessStore::Instance();
     G4double mass = particle->GetPDGMass();
 
@@ -146,14 +155,14 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
     for (i = 0; i < fBinsE; i++) {
         x += de;
         e = std::pow(10., x) * MeV;
-        G4cout << std::setw(5) << i << std::setw(12) << e;
+        myfile <<setprecision(5) << std::setw(5) << i << scientific<< std::setw(12) << e;
         xs = store->GetElasticCrossSectionPerAtom(particle, e, elm, mat);
         xtot = xs;
-        G4cout << std::setw(12) << xs / barn;
+        myfile  <<fixed<<setprecision(5)<<std::setw(12) << xs / barn;
         xs = store->GetInelasticCrossSectionPerAtom(particle, e, elm, mat);
-        G4cout << std::setw(12) << xs / barn;
+        myfile <<fixed<<setprecision(5)<< std::setw(12) << xs / barn;
         xtot += xs;
-        G4cout << " " << std::setw(12) << xtot / barn << G4endl;
+        myfile << " " << std::setw(12) << xtot / barn << endl;
         if (fTargetMaterial) {
             xs =
                     store->GetInelasticCrossSectionPerVolume(particle, e, fTargetMaterial);
@@ -162,8 +171,9 @@ void HadRunAction::EndOfRunAction(const G4Run*) {
         }
 
     }
-    G4cout << "-------------------------------------------------------------"
-            << G4endl;
+    myfile << "-------------------------------------------------------------"
+            << endl;
+    myfile.close();
 
 }
 
