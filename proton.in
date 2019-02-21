@@ -1,0 +1,15 @@
+/control/verbose 1 
+/run/verbose 1 
+/tracking/verbose 0 
+
+/testhadr/TargetMat G4_Ar
+/testhadr/TargetRadius 100 cm 
+/testhadr/TargetLength 1 cm 
+
+/testhadr/Update 
+/run/initialize 
+/random/setSeeds 0 31 
+
+/gun/particle proton 
+/gun/energy 50.0 MeV 
+/run/beamOn 1
