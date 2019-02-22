@@ -42,6 +42,7 @@ void readall()
   //
   double ulimits[G4sets]={3500.,60.,3000.,800.,3000.,2000.,2000.,1200.};
   string  Particles[G4sets];
+  string pngfiles[G4sets];
   TCanvas *c[G4sets];
   TGraph *grtot[G4sets];
   TGraph *grel[G4sets];
@@ -59,13 +60,16 @@ void readall()
   vector<double> el;
   vector<double> inel;
   vector<double> tot;
-  vector<double> PDGen;
+
   for (int i=0;i<G4sets;i++)
     {
       std::vector<std::string> y = split(G4datasets[i], '_');
       std::size_t found = G4datasets[i].find("_G4_Ar.out");
       std::size_t found1 = G4datasets[i].find("_");
       Particles[i]= G4datasets[i].substr(found1+1,found-found1-1);
+      std::vector<std::string> X = split(G4datasets[i], '.');
+      pngfiles[i]= X[0]+".png";
+      cout<<pngfiles[i]<<endl;
     }
   for (int i=0;i<G4sets;i++)
     {
@@ -151,6 +155,7 @@ void readall()
       //
       TLegend *leg = c[i]->BuildLegend(.5, .7, 0.85, .85);
       leg->Draw();
+      gPad->SaveAs(pngfiles[i].c_str());
       tot.clear();
       en.clear();
       el.clear();
