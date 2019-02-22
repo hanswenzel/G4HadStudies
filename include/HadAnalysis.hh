@@ -33,7 +33,7 @@ class HadAnalysis {
 private:
     static HadAnalysis* instance;
 
-    G4String NtupleFileName = "junk.root";
+    G4String NtupleFileName;
     TFile* FileNtuple;
     //   TTree* ProdTree;
     TTree* HeaderTree;
@@ -66,7 +66,7 @@ public:
     HadAnalysis();
     ~HadAnalysis();
 
-    void book(G4long, G4long);
+    void book();
     void FillNtuple(std::vector<TrackInfo_t>);
 
     void WriteNtuple();
