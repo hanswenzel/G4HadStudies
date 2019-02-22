@@ -75,6 +75,6 @@ neutron.in
 pi-.in
 pi+.in
 proton.in
-run.sh 
+scanAr.sh 
 scripts/readall.C
 DESTINATION bin)
