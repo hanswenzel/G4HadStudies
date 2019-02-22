@@ -59,10 +59,9 @@ HadAnalysis* HadAnalysis::getInstance() {
 //------------------------------------------------------------------------------------
 
 void HadAnalysis::book(G4long id0, G4long id1) {
-//    sprintf(NtupleFileName, "ntuple_%04d.root", int(id0));
 
     G4cout << "Random Seeds: " << id0 << " " << id1 << G4endl;
-
+    NtupleFileName= "XS_"+PartName+"_"+material+".root";
     FileNtuple = new TFile(NtupleFileName.c_str(), "RECREATE", "hadronic interactions hadron-Target");
 
     //Get and store general information about this run: 

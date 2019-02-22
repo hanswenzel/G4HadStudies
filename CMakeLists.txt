@@ -23,6 +23,7 @@ if(NOT ROOT_FOUND)
   message(STATUS "g4had: ROOT package not found. --> g4had disabled")
   return()
 endif()
+include(${ROOT_USE_FILE})
 
 message(STATUS "${ROOT_USE_FILE}=${${ROOT_USE_FILE}}")
 
@@ -65,4 +66,15 @@ target_link_libraries(${name}  CrossSection   ${Geant4_LIBRARIES} ${ROOT_LIBRARI
 
 install (TARGETS ${name} DESTINATION bin)
 install (TARGETS CrossSection DESTINATION lib)
-install (FILES vis.mac init_vis.mac DESTINATION bin)
+install (FILES vis.mac init_vis.mac 
+anti_proton.in
+gamma.in
+kaon-.in
+kaon+.in
+neutron.in
+pi-.in
+pi+.in
+proton.in
+run.sh 
+scripts/readall.C
+DESTINATION bin)
