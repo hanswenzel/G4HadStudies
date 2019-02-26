@@ -33,6 +33,7 @@ G4bool HadSD::ProcessHits(G4Step* aStep,
     // (geant4 version 4.10 and up) )
     //  
     if (aStep->GetTrack()->GetParentID() == 0) {
+      std::cout<< aStep->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName()<<std::endl;
         if (aStep->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "hadElastic") {
             HadAnalysis* analysis = HadAnalysis::getInstance();
             analysis->SetnumberElastic((analysis->GetnumberElastic()) + 1);

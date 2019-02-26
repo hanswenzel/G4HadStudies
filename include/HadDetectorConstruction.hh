@@ -28,7 +28,7 @@ public:
   void SetTargetMaterial(const G4String&);
 
   void SetTargetRadius(G4double val);
-  void SetTargetLenght(G4double val);
+  void SetTargetLength(G4double val);
 
   void UpdateGeometry();
 

@@ -101,7 +101,7 @@ void HadDetectorMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
   else if( command == rCmd ) 
     Detector->SetTargetRadius(rCmd->GetNewDoubleValue(newValue));
   else if( command == lCmd ) 
-    Detector->SetTargetLenght(rCmd->GetNewDoubleValue(newValue));
+    Detector->SetTargetLength(rCmd->GetNewDoubleValue(newValue));
   else if( command == updateCmd )
     Detector->UpdateGeometry();
 }

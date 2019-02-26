@@ -150,7 +150,7 @@ void HadDetectorConstruction::SetTargetRadius(G4double val)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void HadDetectorConstruction::SetTargetLenght(G4double val)  
+void HadDetectorConstruction::SetTargetLength(G4double val)  
 {
   if(val > 0.0) {
     targetZ = val*0.5;
